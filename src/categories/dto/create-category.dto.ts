@@ -4,5 +4,5 @@ export class CreateCategoryDto {
   @IsString()
   @MinLength(3)
   @IsOptional()
-  name: string;
+  name?: string;
 }

@@ -6,6 +6,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EnvConfiguration } from './config/env.config';
 import { JoiValidationSchema } from './config/joi.validator';
 import { DataSource } from 'typeorm';
+import { LoggerModule } from './logger/logger.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { ProductsService } from './products/products.service';
+import { CloudinaryService } from './cloudinary/cloudinary.service';
+import { ProductsController } from './products/products.controller';
+import { CommonModule } from './common/common.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -34,8 +41,12 @@ import { DataSource } from 'typeorm';
     }),
     ProductsModule,
     CategoriesModule,
+    LoggerModule,
+    CloudinaryModule,
+    CommonModule,
+    MulterModule.register({ dest: './uploads' }),
   ],
-  controllers: [],
-  providers: [],
+  controllers: [ProductsController],
+  providers: [ProductsService, CloudinaryService],
 })
 export class AppModule {}

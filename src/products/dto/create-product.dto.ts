@@ -2,13 +2,14 @@ import {
   IsArray,
   IsInt,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsPositive,
   IsString,
   MinLength,
 } from 'class-validator';
-import { Category } from 'src/categories/entities/category.entity';
 import { ProductImages } from '../entities';
+import { Transform, Type } from 'class-transformer';
 
 export class CreateProductDto {
   @IsString()
@@ -21,13 +22,14 @@ export class CreateProductDto {
   @MinLength(3)
   description: string;
 
-  @IsInt()
+  @Transform(({ value }) => parseFloat(value))
+  @IsNumber()
   @IsPositive()
-  @IsNotEmpty()
   price: number;
 
+  @Transform(({ value }) => parseInt(value))
+  @Type(() => Number)
   @IsInt()
-  @IsNotEmpty()
   stock: number;
 
   @IsString({ each: true })
@@ -38,5 +40,5 @@ export class CreateProductDto {
   @IsString({ each: true })
   @IsArray()
   @IsOptional()
-  categories?: Category[];
+  categories?: string[];
 }

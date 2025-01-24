@@ -17,7 +17,7 @@ export class Products {
   name: string;
   @Column('text')
   description: string;
-  @Column('decimal', { precision: 10, scale: 2 })
+  @Column('float')
   price: number;
   @Column('int', { default: 0 })
   stock: number;
@@ -26,7 +26,10 @@ export class Products {
     eager: true,
   })
   images: ProductImages[];
-  @ManyToMany(() => Category)
+  @ManyToMany(() => Category, (category) => category.products, {
+    eager: true,
+    cascade: true,
+  })
   @JoinTable({ name: 'products_categories' })
   categories: Category[];
 }
